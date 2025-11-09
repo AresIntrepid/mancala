@@ -127,6 +127,8 @@ Controller → User input handling and model updates
 ```
 
 #### **Strategy Pattern**
+- Enables pluggable board styles with different visual appearances (shapes, colors, layouts)
+  
 ```
 BoardStyle Interface → Defines rendering contract
 ConcreteStyle1      → Implementation for style variant 1
@@ -202,7 +204,6 @@ The modular design allows easy modification of game rules by updating the `Manca
 
 <div align="center">
 
-**Star this repository if you find it helpful!**
 
 Made with Java
 
