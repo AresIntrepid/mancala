@@ -196,47 +196,10 @@ The modular design allows easy modification of game rules by updating the `Manca
 
 ---
 
-## Contributing
-
-Contributions are welcome! Here's how you can help:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Areas for Contribution
-- Additional board styles
-- AI opponent implementation
-- Network multiplayer support
-- Game statistics and history
-- Accessibility improvements
-- Unit tests
 
 ---
 
-## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## Acknowledgments
-
-- Mancala game rules based on traditional Kalah variant
-- Inspired by ancient African and Middle Eastern gaming traditions
-- Built as part of software design pattern learning project
-
----
-
-## Contact
-
-**Project Maintainer**: Your Name  
-**Email**: your.email@example.com  
-**Project Link**: [https://github.com/yourusername/mancala-game](https://github.com/yourusername/mancala-game)
-
----
 
 <div align="center">
 
