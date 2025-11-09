@@ -118,7 +118,7 @@ Mancala is a two-player turn-based strategy game which features a board with two
 ### Design Patterns
 
 #### **Model-View-Controller (MVC)**
-Separates game logic, visual presentation, and user input handling
+- Separates game logic, visual presentation, and user input handling
 
 ```
 Model      → Game state, rules, and business logic
