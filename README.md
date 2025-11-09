@@ -3,8 +3,6 @@
 <div align="center">
 
 [![Java](https://img.shields.io/badge/Java-11+-orange.svg)](https://www.oracle.com/java/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 A feature-rich desktop implementation of the ancient Mancala board game with a modern graphical interface, built using Java Swing and proven design patterns.
 
