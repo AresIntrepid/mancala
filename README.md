@@ -35,9 +35,9 @@ Mancala is a two-player turn-based strategy game which features a board with two
   - Automatic end-game stone collection
 
 ### User Interface
-- **Interactive Board**: Click-to-select pit interface
+- **Interactive Board**: Click-to-select pit interface, board with labeled pits (A1-A6, B1-B6) and Mancalas (A, B)
 - **Visual Feedback**: Real-time stone count updates
-- **Undo Functionality**: Revert moves with constraints (max 3 per turn, no consecutive undos)
+- **Undo Functionality**: Revert moves with constraints (max 3 per turn, no consecutive undos without a move)
 - **Style Selection**: Choose your preferred board aesthetic before gameplay
 
 ### Technical Features
@@ -96,21 +96,6 @@ Mancala is a two-player turn-based strategy game which features a board with two
 2. **Distribute Stones**: Stones are distributed counter-clockwise, one per pit
 3. **Your Mancala**: When passing your Mancala, drop a stone in it
 4. **Skip Opponent's Mancala**: Never drop stones in opponent's Mancala
-
-**User Interface**:
-- Visual representation of the Mancala board with labeled pits (A1-A6, B1-B6) and Mancalas (A, B)
-- Graphical display of individual stones (not just numbers)
-- Style selection screen with at least two distinct board styles
-- Click-based pit selection for gameplay
-- Undo functionality with constraints (max 3 undos per turn, no consecutive undos without a move)
-
-**Game Rules**:
-- Counter-clockwise stone distribution
-- Skipping opponent's Mancala
-- Free turn when landing in own Mancala
-- Stone capture from opposite pits
-- End-game detection and winner determination
-
 
 **Special Rules**:
 - **Free Turn**: Landing your last stone in your Mancala grants another turn
