@@ -4,7 +4,7 @@
 
 [![Java](https://img.shields.io/badge/Java-11+-orange.svg)](https://www.oracle.com/java/)
 
-A feature-rich desktop implementation of the ancient Mancala board game with a modern graphical interface, built using Java Swing and proven design patterns.
+Object-oriented desktop implementation of the Mancala board game built with Java Swing, featuring event-driven architecture with MVC separation of concerns, Strategy pattern for extensible board rendering, and stateful game management for move validation and rollback functionality.
 
 [Features](#features) • [Getting Started](#getting-started) • [How to Play](#how-to-play) • [Architecture](#architecture) • [Screenshots](#screenshots) • [Contributing](#contributing)
 
