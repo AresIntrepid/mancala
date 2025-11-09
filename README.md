@@ -1,4 +1,3 @@
-<div align="center">
 # Mancala Game
 
 <div align="center">
