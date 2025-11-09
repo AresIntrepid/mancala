@@ -97,6 +97,21 @@ Mancala is a two-player turn-based strategy game which features a board with two
 3. **Your Mancala**: When passing your Mancala, drop a stone in it
 4. **Skip Opponent's Mancala**: Never drop stones in opponent's Mancala
 
+**User Interface**:
+- Visual representation of the Mancala board with labeled pits (A1-A6, B1-B6) and Mancalas (A, B)
+- Graphical display of individual stones (not just numbers)
+- Style selection screen with at least two distinct board styles
+- Click-based pit selection for gameplay
+- Undo functionality with constraints (max 3 undos per turn, no consecutive undos without a move)
+
+**Game Rules**:
+- Counter-clockwise stone distribution
+- Skipping opponent's Mancala
+- Free turn when landing in own Mancala
+- Stone capture from opposite pits
+- End-game detection and winner determination
+
+
 **Special Rules**:
 - **Free Turn**: Landing your last stone in your Mancala grants another turn
 - **Capture**: Landing your last stone in an empty pit on your side captures that stone plus all stones in the opposite pit
@@ -169,37 +184,8 @@ The application includes two distinct visual styles:
 1. **Classic Style**: Traditional circular pits with earth tones
 2. **Modern Style**: Sleek rectangular design with vibrant colors
 
-*Additional styles can be easily added by implementing the `BoardStyle` interface.*
 
 ---
-
-## Development
-
-### Adding a New Board Style
-
-1. Create a class implementing `BoardStyle` interface
-2. Override `renderPit()`, `renderMancala()`, and `getColors()` methods
-3. Add selection button in the initial style screen
-```java
-public class MyCustomStyle implements BoardStyle {
-    @Override
-    public void renderPit(Graphics g, int x, int y, int stones) {
-        // Custom rendering logic
-    }
-    
-    // Implement other required methods...
-}
-```
-
-### Extending Game Rules
-
-The modular design allows easy modification of game rules by updating the `MancalaModel` class while keeping UI code unchanged.
-
----
-
-
----
-
 
 
 <div align="center">
