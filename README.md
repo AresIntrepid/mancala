@@ -36,7 +36,7 @@ Mancala is a two-player turn-based strategy game which features a board with two
 
 ### User Interface
 - **Interactive Board**: Click-to-select pit interface, board with labeled pits (A1-A6, B1-B6) and Mancalas (A, B)
-- **Visual Feedback**: Real-time stone count updates
+- **Visual Feedback**: Graphical display of Real-time stone count updates
 - **Undo Functionality**: Revert moves with constraints (max 3 per turn, no consecutive undos without a move)
 - **Style Selection**: Choose your preferred board aesthetic before gameplay
 
