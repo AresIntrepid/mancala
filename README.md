@@ -6,7 +6,7 @@
 
 Object-oriented desktop implementation of the Mancala board game built with Java Swing, featuring event-driven architecture with MVC separation of concerns, Strategy pattern for extensible board rendering, and stateful game management for move validation and rollback functionality.
 
-[Features](#features) • [Getting Started](#getting-started) • [How to Play](#how-to-play) • [Architecture](#architecture) • [Screenshots](#screenshots) • [Contributing](#contributing)
+[Features](#features) • [Getting Started](#getting-started) • [How to Play](#how-to-play) • [Architecture](#architecture) • [SystemDesign](#diagrams)
 
 </div>
 
