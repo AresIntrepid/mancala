@@ -15,7 +15,7 @@ Object-oriented desktop implementation of the Mancala board game built with Java
 ## Overview
 Mancala is a two-player turn-based strategy game which features a board with two rows of six pits each, plus two Mancala stores (one for each player). Players begin by selecting the initial number of stones per pit (3 or 4), which are then distributed across all pits. Players take turns selecting pits on their side, distributing stones counter-clockwise according to game rules, with special conditions for landing in their own Mancala (free turn) or capturing opponent stones from opposite pits. This implementation provides an intuitive graphical user interface with customizable board styles, undo functionality.
 
-### Key Features
+### Core Features
 
 - **Multiple Board Styles**: Choose from different visual themes using the Strategy pattern
 - **Smart Undo System**: Undo up to 3 moves per turn with intelligent state management
@@ -25,7 +25,7 @@ Mancala is a two-player turn-based strategy game which features a board with two
 
 ---
 
-## Features
+## Feature Breakdown
 
 ### Gameplay Features
 - **Full Mancala Rules Implementation**
