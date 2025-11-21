@@ -2,7 +2,55 @@
 // Implement setters for status text and logic to toggle Undo based on model state.
 package mancala.view;
 
-public class ControlPanel {
-  
-}
+import javax.swing.*;
+import java.awt.*;
 
+public class ControlPanel extends JPanel {
+    private JButton undoButton;
+    private JLabel statusLabel;
+    private JButton woodButton;
+    private JButton neonButton;
+    
+    public ControlPanel() {
+        setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        // WEST: Undo button (disabled for now)
+        undoButton = new JButton("Undo");
+        undoButton.setEnabled(false);
+        add(undoButton, BorderLayout.WEST);
+        
+        // CENTER: Status label
+        statusLabel = new JLabel("Player A's turn");
+        statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(statusLabel, BorderLayout.CENTER);
+        
+        // EAST: Style buttons for switching during gameplay
+        JPanel styleButtonsPanel = new JPanel(new FlowLayout());
+        woodButton = new JButton("Wood");
+        neonButton = new JButton("Neon");
+        styleButtonsPanel.add(woodButton);
+        styleButtonsPanel.add(neonButton);
+        add(styleButtonsPanel, BorderLayout.EAST);
+    }
+    
+    public void setStatusText(String text) {
+        statusLabel.setText(text);
+    }
+    
+    public void setUndoEnabled(boolean enabled) {
+        undoButton.setEnabled(enabled);
+    }
+    
+    public JButton getUndoButton() {
+        return undoButton;
+    }
+    
+    public JButton getWoodButton() {
+        return woodButton;
+    }
+    
+    public JButton getNeonButton() {
+        return neonButton;
+    }
+}
