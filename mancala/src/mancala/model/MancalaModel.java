@@ -2,6 +2,7 @@
 // Implement sowing/skip/extra-turn/capture/sweep and the undo limits after rules are finalized.
 package mancala.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import javax.swing.event.ChangeEvent;
@@ -20,10 +21,10 @@ public class MancalaModel {
   private int currentPlayer = -1;
 
   private static final int DEFAULT_PITS_AMOUNT = 6;
-  private static final int DEFUALT_STONE_PER_PIT = 4;
+  private static final int DEFAULT_STONE_PER_PIT = 4;
 
   public MancalaModel() {
-    this(DEFAULT_PITS_AMOUNT, DEFUALT_STONE_PER_PIT);
+    this(DEFAULT_PITS_AMOUNT, DEFAULT_STONE_PER_PIT);
   }
 
   public MancalaModel(int pitsPerSide, int stonesPerPit) {
@@ -31,6 +32,8 @@ public class MancalaModel {
     this.stonesPerPit = stonesPerPit;
 
     isGameOver = false;
+    this.history = new Stack<>();
+    this.listeners = new ArrayList<>();
 
     init();
   }
