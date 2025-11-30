@@ -88,23 +88,27 @@ public class MancalaModel {
    * @return true if there is an extra move to do
    */
   public boolean applyMove(int pitIndex) {
+    // Save the original selected pit for history
+    currentMove = pitIndex;
+    
     int stones = getStonesAtPit(pitIndex);
     board[pitIndex] = 0;
 
     int opponentStore = getPlayerStore(3 - currentPlayer);
 
+    // Distribute stones and track final landing position
+    int finalLandingPit = pitIndex;
     while (stones != 0) {
-      pitIndex = (pitIndex + 1) % board.length;
+      finalLandingPit = (finalLandingPit + 1) % board.length;
 
-      if (opponentStore != pitIndex) {
-        board[pitIndex]++;
+      if (opponentStore != finalLandingPit) {
+        board[finalLandingPit]++;
         stones--;
       }
     }
 
-    boolean extraMove = checkCaptureAndExtraTurn(currentMove);
-
-    addToHistory();
+    // Check capture and extra turn based on final landing pit
+    boolean extraMove = checkCaptureAndExtraTurn(finalLandingPit);
 
     if (checkGameEnd()) {
       endGame();
@@ -112,6 +116,7 @@ public class MancalaModel {
       switchPlayer();
     }
 
+    // Save state to history after move is complete
     addToHistory();
     notifyListeners();
 

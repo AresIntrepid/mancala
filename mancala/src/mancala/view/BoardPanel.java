@@ -8,10 +8,12 @@ import mancala.style.BoardStyle;
 
 public class BoardPanel extends JPanel {
     private BoardStyle style;
+    private int[] boardState; // Board state from model (indices 0-13)
     
     public BoardPanel() {
         setPreferredSize(new Dimension(800, 400));
         setBackground(Color.LIGHT_GRAY);
+        boardState = null; // No board state initially
     }
     
     public void setStyle(BoardStyle style) {
@@ -24,6 +26,26 @@ public class BoardPanel extends JPanel {
     
     public BoardStyle getStyle() {
         return style;
+    }
+    
+    /**
+     * Sets the board state from the model.
+     * This will be used for rendering pits and stones in Priority 5.
+     * 
+     * @param boardState Array of 14 integers representing the board state
+     */
+    public void setBoardState(int[] boardState) {
+        this.boardState = boardState;
+        repaint(); // Repaint to show updated state (will be used when rendering is implemented)
+    }
+    
+    /**
+     * Gets the current board state.
+     * 
+     * @return Array of board state, or null if not set
+     */
+    public int[] getBoardState() {
+        return boardState;
     }
     
     @Override
