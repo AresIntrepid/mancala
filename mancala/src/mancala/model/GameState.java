@@ -11,6 +11,7 @@ public class GameState {
   public GameState(int[] board, int currentTurn, int currentPlayer) {
     this.board = board;
     this.currentTurn = currentTurn;
+    this.currentPlayer = currentPlayer;
   }
 
   public int getCurrentTurn() {
