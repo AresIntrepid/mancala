@@ -36,6 +36,10 @@ public class MancalaController implements PitClickListener {
     private BoardStyle currentStyle;
     private MancalaModel model;
     
+    private int undosThisTurn = 0;
+    private boolean lastActionWasUndo = false;
+    private static final int MAX_UNDOS_PER_TURN = 3;
+    
     /**
      * Constructs a new MancalaController and sets up all event listeners.
      * 
@@ -70,10 +74,12 @@ public class MancalaController implements PitClickListener {
             }
         } else {
             int currentPlayer = model.getCurrentPlayer();
+            int undosLeft = MAX_UNDOS_PER_TURN - undosThisTurn;
+            String undoInfo = " (Undos left: " + undosLeft + ")";
             if (currentPlayer == 1) {
-                controlPanel.setStatusText("Player A's turn");
+                controlPanel.setStatusText("Player A's turn" + undoInfo);
             } else if (currentPlayer == 2) {
-                controlPanel.setStatusText("Player B's turn");
+                controlPanel.setStatusText("Player B's turn" + undoInfo);
             }
         }
         
@@ -83,9 +89,8 @@ public class MancalaController implements PitClickListener {
         boolean gameOver = model.isGameOver();
         boardPanel.setBoardState(boardState, currentPlayer, gameOver);
         
-        // Update undo button (basic implementation)
-        // For now, just enable it if game is not over
-        controlPanel.setUndoEnabled(!model.isGameOver());
+        // Update undo button based on all constraints
+        controlPanel.setUndoEnabled(canUndo());
     }
     
     /**
@@ -100,8 +105,11 @@ public class MancalaController implements PitClickListener {
             return;
         }
         
+        ControlPanel controlPanel = frame.getControlPanel();
+        
         // Validate: game must not be over
         if (model.isGameOver()) {
+        	controlPanel.setStatusText("Game is over! No more moves allowed.");
             return; // Ignore clicks when game is over
         }
         
@@ -117,18 +125,33 @@ public class MancalaController implements PitClickListener {
         }
         
         if (!isPlayerPit) {
+        	String playerName = (currentPlayer == 1) ? "Player A" : "Player B";
+            controlPanel.setStatusText("Not your pit! It's " + playerName + "'s turn.");
             return; // Ignore clicks on opponent's pits
         }
         
         // Validate: pit must have stones
         int stones = model.getStonesAtPit(pitIndex);
         if (stones == 0) {
+        	controlPanel.setStatusText("That pit is empty! Choose a pit with stones.");
             return; // Ignore clicks on empty pits
         }
+        // Track player before move to detect turn changes
+        int playerBefore = model.getCurrentPlayer();
         
         // All validations passed, apply the move
         model.applyMove(pitIndex);
-        // Note: updateView() will be called automatically via ChangeListener
+        
+        // Reset lastActionWasUndo flag after a successful move
+        lastActionWasUndo = false;
+        
+        // Check if turn changed after the move
+        int playerAfter = model.getCurrentPlayer();
+        if (playerBefore != playerAfter) {
+            // Turn changed - reset undo counter for the new player's turn
+            undosThisTurn = 0;
+        }
+     // Note: updateView() will be called automatically via ChangeListener
     }
     
     /**
@@ -142,6 +165,39 @@ public class MancalaController implements PitClickListener {
         
         // Set up pit click listener
         boardPanel.setPitClickListener(this);
+        
+     // Listen for undo button clicks
+        controlPanel.getUndoButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (model != null && canUndo()) {
+                    model.undo();
+                    undosThisTurn++;
+                    lastActionWasUndo = true;
+                    updateView(); // Make sure view refreshes
+                }
+            }
+        });
+        
+     // Listen for new game button clicks
+        controlPanel.getNewGameButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Go back to style select screen
+                frame.showStyleSelect();
+                
+                // Reset controller state
+                undosThisTurn = 0;
+                lastActionWasUndo = false;
+                model = null;
+                
+                // Re-enable the stones field
+                styleSelectPanel.enableStonesField(); 
+                
+                // Go back to style select screen
+                frame.showStyleSelect();
+            }
+        });
         
         // Listen for style selection from the initial style select screen
         // Format: "styleName:stones" (e.g., "Wood:3" or "Neon:4")
@@ -230,5 +286,26 @@ public class MancalaController implements PitClickListener {
      */
     public MancalaModel getModel() {
         return model;
+    }
+    /**
+     * Checks if undo is allowed based on game rules:
+     * - Game must not be over
+     * - Maximum 3 undos per turn
+     * - Cannot undo twice in a row (must make a move between undos)
+     * - Must have history to undo
+     * 
+     * @return true if undo is currently allowed
+     */
+    private boolean canUndo() {
+        if (model == null || model.isGameOver()) {
+            return false;
+        }
+        if (lastActionWasUndo) {
+            return false; // No consecutive undos
+        }
+        if (undosThisTurn >= MAX_UNDOS_PER_TURN) {
+            return false; // Max 3 undos per turn
+        }
+        return model.hasHistory(); // Check if there's anything to undo
     }
 }

@@ -94,4 +94,10 @@ public class StyleSelectPanel extends JPanel {
             return 3; // Default
         }
     }
+    
+    public void enableStonesField() {
+        stonesField.setEnabled(true);
+        stonesField.setBackground(Color.WHITE);
+        stonesField.setText(""); // Clear the previous value
+    }
 }

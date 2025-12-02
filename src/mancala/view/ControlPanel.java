@@ -10,15 +10,20 @@ public class ControlPanel extends JPanel {
     private JLabel statusLabel;
     private JButton woodButton;
     private JButton neonButton;
+    private JButton newGameButton; 
     
     public ControlPanel() {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
-        // WEST: Undo button (disabled for now)
+        // WEST: Undo button + new game button
+        JPanel leftButtons = new JPanel(new FlowLayout());
         undoButton = new JButton("Undo");
         undoButton.setEnabled(false);
-        add(undoButton, BorderLayout.WEST);
+        newGameButton = new JButton("New Game");
+        leftButtons.add(undoButton);
+        leftButtons.add(newGameButton); 
+        add(leftButtons, BorderLayout.WEST);
         
         // CENTER: Status label
         statusLabel = new JLabel("Player A's turn");
@@ -52,5 +57,9 @@ public class ControlPanel extends JPanel {
     
     public JButton getNeonButton() {
         return neonButton;
+    }
+    
+    public JButton getNewGameButton() {
+        return newGameButton;
     }
 }

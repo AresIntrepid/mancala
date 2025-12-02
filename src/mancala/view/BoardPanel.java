@@ -477,10 +477,10 @@ public class BoardPanel extends JPanel {
      * @param isNeonStyle Whether Neon style is active
      * @param stoneBaseColor Base color for stones (bright cyan for Neon, pitColor for others)
      */
-    private void drawPit(Graphics2D g2d, int x, int y, int width, int height, Pit pit, 
-                         Color pitColor, Color stoneColor, Color borderColor, 
-                         String label, boolean isCurrentPlayer, boolean isHovered, 
-                         boolean isTopRow, boolean isNeonStyle, Color stoneBaseColor) {
+    private void drawPit(Graphics2D g2d, int x, int y, int width, int height, Pit pit,
+    		Color pitColor, Color stoneColor, Color borderColor, 
+            String label, boolean isCurrentPlayer, boolean isHovered, 
+            boolean isTopRow, boolean isNeonStyle, Color stoneBaseColor) {
         int size = Math.min(width, height);
         int centerX = x + width / 2;
         int centerY = y + height / 2;
@@ -557,6 +557,15 @@ public class BoardPanel extends JPanel {
         // Use white for Neon style, black otherwise
         g2d.setColor(isNeonStyle ? Color.WHITE : Color.BLACK);
         g2d.drawString(label, labelX, labelY);
+        
+     // Draw stone count in the center of the pit
+        g2d.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+        g2d.setColor(Color.WHITE);
+        String countText = String.valueOf(pit.getStoneCount());
+        FontMetrics countFm = g2d.getFontMetrics();
+        int countX = centerX - countFm.stringWidth(countText) / 2;
+        int countY = centerY + countFm.getAscent() / 2;
+        g2d.drawString(countText, countX, countY);
     }
     
     /**
@@ -619,6 +628,15 @@ public class BoardPanel extends JPanel {
         // Use white for Neon style, black otherwise
         g2d.setColor(isNeonStyle ? Color.WHITE : Color.BLACK);
         g2d.drawString(label, labelX, labelY);
+        
+     // Draw stone count in the center of the Mancala
+        g2d.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
+        g2d.setColor(Color.WHITE);
+        String countText = String.valueOf(mancala.getStoneCount());
+        FontMetrics countFm = g2d.getFontMetrics();
+        int countX = centerX - countFm.stringWidth(countText) / 2;
+        int countY = centerY + countFm.getAscent() / 2;
+        g2d.drawString(countText, countX, countY);
     }
 
     /**

@@ -2,6 +2,7 @@ package mancala.view;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.BasicStroke; 
 import javax.swing.JComponent;
 
 public class Rock extends JComponent {
@@ -58,8 +59,14 @@ public class Rock extends JComponent {
         double x0 = (double) x + (double) size * dx;
         double y0 = (double) y + (double) size * dy;
 
+        // Fill the stone with mixed color
         g2d.setColor(new Color(rMix, gMix, bMix));
         g2d.fillOval((int) x0, (int) y0, size, size);
+        
+        //Add a thin black outline
+        g2d.setColor(Color.BLACK);
+        g2d.setStroke(new BasicStroke(1));  // Thin outline
+        g2d.drawOval((int) x0, (int) y0, size, size);
     }
 
     /**
