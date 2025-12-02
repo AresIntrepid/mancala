@@ -1,8 +1,8 @@
 // Top-level window that swaps between the style select screen and the main game screen. Decide layout manager (e.g., CardLayout) and what getters the controller needs.
 package mancala.view;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class MancalaFrame extends JFrame {
     private static final String STYLE_SELECT_CARD = "STYLE_SELECT";
@@ -31,7 +31,7 @@ public class MancalaFrame extends JFrame {
         gameScreen = new JPanel(new BorderLayout());
         boardPanel = new BoardPanel();
         controlPanel = new ControlPanel();
-        
+
         gameScreen.add(boardPanel, BorderLayout.CENTER);
         gameScreen.add(controlPanel, BorderLayout.SOUTH);
         
