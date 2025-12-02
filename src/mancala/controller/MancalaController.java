@@ -1,12 +1,27 @@
-// Routes view events (pit click, undo, new game, style choice) to the model and propagates model changes back to the view. 
-// Decide exact callbacks/signals and when to enable/disable Undo.
-
+/**
+ * Controller class implementing the MVC pattern for the Mancala game.
+ * Routes view events (pit clicks, undo, style changes) to the model and
+ * propagates model state changes back to the view components.
+ * 
+ * <p>Responsibilities:
+ * <ul>
+ *   <li>Handles pit click events from BoardPanel</li>
+ *   <li>Validates moves before applying them to the model</li>
+ *   <li>Updates view components when model state changes</li>
+ *   <li>Manages style switching (Wood/Neon)</li>
+ *   <li>Initializes game with user-selected stone count</li>
+ * </ul>
+ * 
+ * @author CS151 Group Project
+ * @version 1.0
+ */
 package mancala.controller;
 
 import mancala.view.MancalaFrame;
 import mancala.view.StyleSelectPanel;
 import mancala.view.BoardPanel;
 import mancala.view.ControlPanel;
+import mancala.view.PitClickListener;
 import mancala.model.MancalaModel;
 import mancala.style.BoardStyle;
 import mancala.style.StyleA;
@@ -16,11 +31,16 @@ import java.awt.event.ActionListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class MancalaController {
+public class MancalaController implements PitClickListener {
     private MancalaFrame frame;
     private BoardStyle currentStyle;
     private MancalaModel model;
     
+    /**
+     * Constructs a new MancalaController and sets up all event listeners.
+     * 
+     * @param frame The main application frame containing all view components
+     */
     public MancalaController(MancalaFrame frame) {
         this.frame = frame;
         setupListeners();
@@ -59,16 +79,69 @@ public class MancalaController {
         
         // Update board panel with current board state
         int[] boardState = model.getBoardState();
-        boardPanel.setBoardState(boardState);
+        int currentPlayer = model.getCurrentPlayer();
+        boolean gameOver = model.isGameOver();
+        boardPanel.setBoardState(boardState, currentPlayer, gameOver);
         
         // Update undo button (basic implementation)
         // For now, just enable it if game is not over
         controlPanel.setUndoEnabled(!model.isGameOver());
     }
     
+    /**
+     * Handles pit click events from BoardPanel.
+     * Validates the click and calls model.applyMove if valid.
+     * 
+     * @param pitIndex The model index of the clicked pit (0-13)
+     */
+    @Override
+    public void onPitClicked(int pitIndex) {
+        if (model == null) {
+            return;
+        }
+        
+        // Validate: game must not be over
+        if (model.isGameOver()) {
+            return; // Ignore clicks when game is over
+        }
+        
+        // Validate: pit must belong to current player
+        int currentPlayer = model.getCurrentPlayer();
+        boolean isPlayerPit = false;
+        if (currentPlayer == 1) {
+            // Player 1 owns indices 0-5 (pits) and 6 (Mancala, but not clickable)
+            isPlayerPit = (pitIndex >= 0 && pitIndex <= 5);
+        } else if (currentPlayer == 2) {
+            // Player 2 owns indices 7-12 (pits) and 13 (Mancala, but not clickable)
+            isPlayerPit = (pitIndex >= 7 && pitIndex <= 12);
+        }
+        
+        if (!isPlayerPit) {
+            return; // Ignore clicks on opponent's pits
+        }
+        
+        // Validate: pit must have stones
+        int stones = model.getStonesAtPit(pitIndex);
+        if (stones == 0) {
+            return; // Ignore clicks on empty pits
+        }
+        
+        // All validations passed, apply the move
+        model.applyMove(pitIndex);
+        // Note: updateView() will be called automatically via ChangeListener
+    }
+    
+    /**
+     * Sets up all event listeners for view components.
+     * Configures listeners for style selection, pit clicks, and style switching during gameplay.
+     */
     private void setupListeners() {
         StyleSelectPanel styleSelectPanel = frame.getStyleSelectPanel();
         ControlPanel controlPanel = frame.getControlPanel();
+        BoardPanel boardPanel = frame.getBoardPanel();
+        
+        // Set up pit click listener
+        boardPanel.setPitClickListener(this);
         
         // Listen for style selection from the initial style select screen
         // Format: "styleName:stones" (e.g., "Wood:3" or "Neon:4")
@@ -141,6 +214,11 @@ public class MancalaController {
         boardPanel.setStyle(currentStyle);
     }
     
+    /**
+     * Gets the currently active board style.
+     * 
+     * @return The current BoardStyle, or null if no style has been selected
+     */
     public BoardStyle getCurrentStyle() {
         return currentStyle;
     }
