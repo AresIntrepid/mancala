@@ -10,14 +10,12 @@ public class BoardPanel extends JPanel {
     private BoardStyle style;
     private int pitsPerSide;
     private Pit[][] pits;
-    private int[] boardState; // Board state from model (indices 0-13)
 
     public BoardPanel() {
         pitsPerSide = 6;
         initializePits();
         setPreferredSize(new Dimension(800, 400));
         setBackground(Color.LIGHT_GRAY);
-        boardState = null; // No board state initially
     }
 
     public void setStyle(BoardStyle style) {
@@ -30,26 +28,6 @@ public class BoardPanel extends JPanel {
 
     public BoardStyle getStyle() {
         return style;
-    }
-    
-    /**
-     * Sets the board state from the model.
-     * This will be used for rendering pits and stones in Priority 5.
-     * 
-     * @param boardState Array of 14 integers representing the board state
-     */
-    public void setBoardState(int[] boardState) {
-        this.boardState = boardState;
-        repaint(); // Repaint to show updated state (will be used when rendering is implemented)
-    }
-    
-    /**
-     * Gets the current board state.
-     * 
-     * @return Array of board state, or null if not set
-     */
-    public int[] getBoardState() {
-        return boardState;
     }
 
     @Override
@@ -88,8 +66,7 @@ public class BoardPanel extends JPanel {
                 int x = xStart + j * (pitWidth + pitSpacing);
                 int y = yStart + i * (pitHeight + pitSpacing);
 
-                Color pitColor = (style != null) ? style.getBackgroundColor() : Color.LIGHT_GRAY;
-                pits[i][j].draw(g2d, x, y, pitSize, pitColor);
+                pits[i][j].draw(g2d, x, y, pitSize, style.getBackgroundColor());
             }   
         }
 

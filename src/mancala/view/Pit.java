@@ -56,4 +56,3 @@ public class Pit {
         return new Rock(dx, dy, r, g, b);
     }
 }
-

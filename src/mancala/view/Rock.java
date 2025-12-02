@@ -43,4 +43,3 @@ public class Rock extends JComponent {
         g2d.fillOval((int)x0, (int)y0, size, size);
     }
 }
-
