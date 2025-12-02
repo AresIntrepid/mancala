@@ -48,6 +48,7 @@ public class MancalaModel {
       currentMove = state.getCurrentTurn();
       board = state.getBoard();
       currentPlayer = state.getCurrentPlayer();
+      notifyListeners();
     }
   }
 
@@ -88,6 +89,8 @@ public class MancalaModel {
    * @return true if there is an extra move to do
    */
   public boolean applyMove(int pitIndex) {
+	// save state BEFORE making changes
+	addToHistory();
     // Save the original selected pit for history
     currentMove = pitIndex;
     
@@ -117,7 +120,6 @@ public class MancalaModel {
     }
 
     // Save state to history after move is complete
-    addToHistory();
     notifyListeners();
 
     return extraMove;
@@ -212,9 +214,9 @@ public class MancalaModel {
 
   private int getPlayerPitEnd(int player) {
     if (player == 1) {
-      return pitsPerSide;
+      return pitsPerSide - 1;  // 5 (last regular pit for Player 1)
     } else {
-      return pitsPerSide * 2 + 1;
+    	return pitsPerSide * 2;  // 12 (last regular pit for Player 2)
     }
   }
 
@@ -244,5 +246,13 @@ public class MancalaModel {
     } else {
       winner = 0;
     }
+  }
+  /**
+   * Checks if there is any history available for undo.
+   * 
+   * @return true if history stack is not empty
+   */
+  public boolean hasHistory() {
+      return !history.empty();
   }
 }

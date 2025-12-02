@@ -477,10 +477,10 @@ public class BoardPanel extends JPanel {
      * @param isNeonStyle Whether Neon style is active
      * @param stoneBaseColor Base color for stones (bright cyan for Neon, pitColor for others)
      */
-    private void drawPit(Graphics2D g2d, int x, int y, int width, int height, Pit pit, 
-                         Color pitColor, Color stoneColor, Color borderColor, 
-                         String label, boolean isCurrentPlayer, boolean isHovered, 
-                         boolean isTopRow, boolean isNeonStyle, Color stoneBaseColor) {
+    private void drawPit(Graphics2D g2d, int x, int y, int width, int height, Pit pit,
+    		Color pitColor, Color stoneColor, Color borderColor, 
+            String label, boolean isCurrentPlayer, boolean isHovered, 
+            boolean isTopRow, boolean isNeonStyle, Color stoneBaseColor) {
         int size = Math.min(width, height);
         int centerX = x + width / 2;
         int centerY = y + height / 2;
@@ -557,6 +557,32 @@ public class BoardPanel extends JPanel {
         // Use white for Neon style, black otherwise
         g2d.setColor(isNeonStyle ? Color.WHITE : Color.BLACK);
         g2d.drawString(label, labelX, labelY);
+        
+     // Draw stone count as a badge in top-left corner (like a notification)
+        int badgeSize = 20;
+        int badgeX = drawX; // Overlap the pit edge
+        int badgeY = drawY; // Overlap the pit edge
+
+        // Draw white circle background
+        g2d.setColor(Color.WHITE);
+        g2d.fillOval(badgeX, badgeY, badgeSize, badgeSize);
+
+        // Draw black border
+        g2d.setColor(Color.BLACK);
+        g2d.setStroke(new BasicStroke(2));
+        g2d.drawOval(badgeX, badgeY, badgeSize, badgeSize);
+
+        // Draw count text in the badge
+        g2d.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 11));
+        String countText = String.valueOf(pit.getStoneCount());
+        FontMetrics badgeFm = g2d.getFontMetrics();
+        int textX = badgeX + (badgeSize - badgeFm.stringWidth(countText)) / 2;
+        int textY = badgeY + (badgeSize + badgeFm.getAscent()) / 2 - 2;
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(countText, textX, textY);
+
+        // Reset stroke
+        g2d.setStroke(originalStroke);
     }
     
     /**
@@ -619,6 +645,29 @@ public class BoardPanel extends JPanel {
         // Use white for Neon style, black otherwise
         g2d.setColor(isNeonStyle ? Color.WHITE : Color.BLACK);
         g2d.drawString(label, labelX, labelY);
+        
+     // Draw stone count as a badge in top-left corner
+        int badgeSize = 24; // Slightly larger for Mancalas
+        int badgeX = centerX - badgeSize / 2; // Centered horizontally
+        int badgeY = drawY - badgeSize;   // At the top edge
+
+        // Draw white circle background
+        g2d.setColor(Color.WHITE);
+        g2d.fillOval(badgeX, badgeY, badgeSize, badgeSize);
+
+        // Draw black border
+        g2d.setColor(Color.BLACK);
+        g2d.setStroke(new BasicStroke(2));
+        g2d.drawOval(badgeX, badgeY, badgeSize, badgeSize);
+
+        // Draw count text in the badge
+        g2d.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
+        String countText = String.valueOf(mancala.getStoneCount());
+        FontMetrics badgeFm = g2d.getFontMetrics();
+        int textX = badgeX + (badgeSize - badgeFm.stringWidth(countText)) / 2;
+        int textY = badgeY + (badgeSize + badgeFm.getAscent()) / 2 - 2;
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(countText, textX, textY);
     }
 
     /**
