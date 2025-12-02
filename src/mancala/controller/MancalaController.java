@@ -7,21 +7,63 @@ import mancala.view.MancalaFrame;
 import mancala.view.StyleSelectPanel;
 import mancala.view.BoardPanel;
 import mancala.view.ControlPanel;
+import mancala.model.MancalaModel;
 import mancala.style.BoardStyle;
 import mancala.style.StyleA;
 import mancala.style.StyleB;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class MancalaController {
     private MancalaFrame frame;
     private BoardStyle currentStyle;
-    // TODO: Add model reference when MancalaModel is implemented
-    // private MancalaModel model;
+    private MancalaModel model;
     
     public MancalaController(MancalaFrame frame) {
         this.frame = frame;
         setupListeners();
+    }
+    
+    /**
+     * Updates the view based on the current model state.
+     * Called whenever the model state changes.
+     */
+    private void updateView() {
+        if (model == null) {
+            return;
+        }
+        
+        ControlPanel controlPanel = frame.getControlPanel();
+        BoardPanel boardPanel = frame.getBoardPanel();
+        
+        // Update status label based on game state
+        if (model.isGameOver()) {
+            int winner = model.getWinner();
+            if (winner == 1) {
+                controlPanel.setStatusText("Player A wins!");
+            } else if (winner == 2) {
+                controlPanel.setStatusText("Player B wins!");
+            } else {
+                controlPanel.setStatusText("It's a tie!");
+            }
+        } else {
+            int currentPlayer = model.getCurrentPlayer();
+            if (currentPlayer == 1) {
+                controlPanel.setStatusText("Player A's turn");
+            } else if (currentPlayer == 2) {
+                controlPanel.setStatusText("Player B's turn");
+            }
+        }
+        
+        // Update board panel with current board state
+        int[] boardState = model.getBoardState();
+        boardPanel.setBoardState(boardState);
+        
+        // Update undo button (basic implementation)
+        // For now, just enable it if game is not over
+        controlPanel.setUndoEnabled(!model.isGameOver());
     }
     
     private void setupListeners() {
@@ -36,16 +78,26 @@ public class MancalaController {
                 String command = e.getActionCommand();
                 String[] parts = command.split(":");
                 String styleName = parts[0];
-                @SuppressWarnings("unused")
-                int stones = Integer.parseInt(parts[1]); // Will be used when model is implemented
+                int stones = Integer.parseInt(parts[1]);
                 
                 // Create style object based on name
                 BoardStyle style = createStyleFromName(styleName);
                 switchStyle(style);
                 
-                // TODO: Initialize model when MancalaModel is implemented
-                // model = new MancalaModel();
-                // model.startGame(stones);
+                // Initialize model with user-selected stones per pit
+                model = new MancalaModel(6, stones); // 6 pits per side
+                model.startGame(1); // Start with Player 1 (Player A)
+                
+                // Add ChangeListener to model to update view when state changes
+                model.addListener(new ChangeListener() {
+                    @Override
+                    public void stateChanged(ChangeEvent e) {
+                        updateView();
+                    }
+                });
+                
+                // Initial view update
+                updateView();
                 
                 // Disable stones field
                 styleSelectPanel.disableStonesField();
@@ -91,5 +143,14 @@ public class MancalaController {
     
     public BoardStyle getCurrentStyle() {
         return currentStyle;
+    }
+    
+    /**
+     * Returns the model instance. Used by view components that need direct model access.
+     * 
+     * @return The MancalaModel instance, or null if not initialized
+     */
+    public MancalaModel getModel() {
+        return model;
     }
 }

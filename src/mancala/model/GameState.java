@@ -9,7 +9,9 @@ public class GameState {
   public int currentPlayer;
 
   public GameState(int[] board, int currentTurn, int currentPlayer) {
-    this.board = board;
+    // Deep copy the board array to prevent external modification
+    this.board = new int[board.length];
+    System.arraycopy(board, 0, this.board, 0, board.length);
     this.currentTurn = currentTurn;
     this.currentPlayer = currentPlayer;
   }
