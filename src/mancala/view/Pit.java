@@ -23,7 +23,7 @@ import java.util.List;
 
 public class Pit {
     private List<Rock> rocks;
-    
+
     /**
      * Constructs a new Pit with the specified initial number of stones.
      * 
@@ -39,10 +39,10 @@ public class Pit {
      * The outline is drawn in the specified color, and stones are rendered
      * with color variations based on the same base color.
      * 
-     * @param g2d Graphics context for drawing
-     * @param x X position of the pit (top-left corner)
-     * @param y Y position of the pit (top-left corner)
-     * @param size Diameter of the circular pit
+     * @param g2d   Graphics context for drawing
+     * @param x     X position of the pit (top-left corner)
+     * @param y     Y position of the pit (top-left corner)
+     * @param size  Diameter of the circular pit
      * @param color Base color for the outline and stone color mixing
      */
     protected void draw(Graphics2D g2d, int x, int y, int size, Color color) {
@@ -50,15 +50,16 @@ public class Pit {
         g2d.drawOval(x, y, size, size);
         drawRocks(g2d, x, y, size, color);
     }
-    
+
     /**
      * Draws only the rocks/stones without the outline.
-     * Used for Neon style where we want a different outline color than the stone base.
+     * Used for Neon style where we want a different outline color than the stone
+     * base.
      * 
-     * @param g2d Graphics context for drawing
-     * @param x X position of the pit (top-left corner)
-     * @param y Y position of the pit (top-left corner)
-     * @param size Diameter of the circular pit
+     * @param g2d   Graphics context for drawing
+     * @param x     X position of the pit (top-left corner)
+     * @param y     Y position of the pit (top-left corner)
+     * @param size  Diameter of the circular pit
      * @param color Base color for stone color mixing
      */
     protected void drawRocks(Graphics2D g2d, int x, int y, int size, Color color) {
@@ -89,7 +90,7 @@ public class Pit {
     public void clear() {
         rocks.clear();
     }
-    
+
     /**
      * Sets the number of stones in this pit to match the model state.
      * Clears existing rocks and adds the specified amount.
@@ -102,7 +103,7 @@ public class Pit {
             addRocks(stoneCount);
         }
     }
-    
+
     /**
      * Gets the current number of stones (rocks) in this pit.
      * 
@@ -114,24 +115,54 @@ public class Pit {
 
     /**
      * Creates a new Rock with random color and position variations.
-     * Colors are randomized within a range, and positions have slight random offsets
+     * Colors are randomized within a range, and positions have slight random
+     * offsets
      * to create visual variety while keeping stones centered in the pit.
      * 
      * @return A new Rock instance with randomized properties
      */
     private Rock createRock() {
+        double RANDOMNESS_MAX = 0.7;
+        double OVERLAPPING_THRESHOLD = 0.5;
+        int ITER_THRESHOLD = 32;
+
         double r = Math.random() * 2 - 1;
         double g = Math.random() * 2 - 1;
         double b = Math.random() * 2 - 1;
-
-        double RANDOMNESS_MAX = 0.5;
-
-        double dx = Math.random() * 2 - 1;
-        double dy = Math.random() * 2 - 1;
-
-        dx = Math.clamp(dx, -RANDOMNESS_MAX, RANDOMNESS_MAX);
-        dy = Math.clamp(dy, -RANDOMNESS_MAX, RANDOMNESS_MAX);
         
-        return new Rock(dx, dy, r, g, b);
+        double dx = 0;
+        double dy = 0;
+
+        // Iterate until it found a valid position
+        int i = 0;
+        while (i++ < ITER_THRESHOLD) {
+            dx = Math.random() * 2 - 1;
+            dy = Math.random() * 2 - 1;
+
+            dx = Math.clamp(dx, -RANDOMNESS_MAX, RANDOMNESS_MAX);
+            dy = Math.clamp(dy, -RANDOMNESS_MAX, RANDOMNESS_MAX);
+
+            boolean ok = true;
+
+            // Test for overlapping
+            for (Rock other : rocks) {
+                double dx1 = other.getDx();
+                double dy1 = other.getDy();
+            
+                double dist = Math.sqrt(Math.pow(dx1 - dx, 2) + Math.pow(dy1 - dy, 2));
+
+                if (dist < OVERLAPPING_THRESHOLD) {
+                    ok = false;
+                    break;
+                }
+            }
+
+            if (ok) {
+                return new Rock(dx, dy, r, g, b);
+            }
+        }
+
+        // If it can't it will use the last tested position
+        return new Rock(dx, dy, r, b, g);
     }
 }
