@@ -147,15 +147,15 @@ public class BoardPanel extends JPanel {
         this.currentPlayer = currentPlayer;
         this.gameOver = gameOver;
         
-        if (boardState != null && boardState.length == 14) {
+        if (boardState != null && boardState.length == (pitsPerSide * 2 + 2)) {
             // Update regular pits
-            // Player A (bottom row): indices 0-5
+            // Player A (bottom row): indices 0 - (pitsPerSide - 1)
             for (int j = 0; j < pitsPerSide; j++) {
                 pits[0][j].setStoneCount(boardState[j]);
             }
-            // Player B (top row): indices 7-12
+            // Player B (top row): indices pitsPerSide + 1 - pitsPerSide * 2
             for (int j = 0; j < pitsPerSide; j++) {
-                pits[1][j].setStoneCount(boardState[7 + j]);
+                pits[1][j].setStoneCount(boardState[pitsPerSide + 1 + j]);
             }
             
             // Update Mancalas
@@ -221,7 +221,7 @@ public class BoardPanel extends JPanel {
                         // Find the closest pit (in case multiple match)
                         if (distanceSquared < minDistanceSquared) {
                             minDistanceSquared = distanceSquared;
-                            bestPitIndex = j; // Index 0-5
+                            bestPitIndex = j; // Index 0 - (pitsPerSide - 1)
                         }
                     }
                 }
@@ -230,7 +230,7 @@ public class BoardPanel extends JPanel {
                 }
             }
             
-            // Check top row (Player B, indices 7-12)
+            // Check top row (Player B, indices (pitsPerSide + 1) - (pitsPerSide * 2))
             if (y >= topRowY && y < topRowY + pitHeight) {
                 bestPitIndex = -1;
                 minDistanceSquared = Integer.MAX_VALUE;
@@ -251,7 +251,7 @@ public class BoardPanel extends JPanel {
                         // Find the closest pit (in case multiple match)
                         if (distanceSquared < minDistanceSquared) {
                             minDistanceSquared = distanceSquared;
-                            bestPitIndex = 7 + j; // Index 7-12
+                            bestPitIndex = pitsPerSide * 2 - j; // Index (pitsPerSide + 1) - (pitsPerSide * 2))
                         }
                     }
                 }
@@ -347,13 +347,13 @@ public class BoardPanel extends JPanel {
         g2d.drawRoundRect(boardRectX, boardRectY, boardRectWidth, boardRectHeight, 20, 20);
         
         // Draw Mancala stores on left and right (OUTSIDE the board border)
-        // Left Mancala (Player A, index 6) - to the left of the board border
-        drawMancala(g2d, leftMancalaX, mancalaY, mancalaWidth, mancalaHeight, 
+        // Left Mancala (Player A, index pitsPerSide) - to the left of the board border
+        drawMancala(g2d, rightMancalaX, mancalaY, mancalaWidth, mancalaHeight, 
                    playerAMancala, pitColor, stoneColor, borderColor, "A", 
                    6 == hoveredPitIndex, isNeonStyle, stoneBaseColor);
         
-        // Right Mancala (Player B, index 13) - to the right of the board border
-        drawMancala(g2d, rightMancalaX, mancalaY, mancalaWidth, mancalaHeight, 
+        // Right Mancala (Player B, index pitsPerSide * 2 + 1) - to the right of the board border
+        drawMancala(g2d, leftMancalaX, mancalaY, mancalaWidth, mancalaHeight, 
                    playerBMancala, pitColor, stoneColor, borderColor, "B", 
                    13 == hoveredPitIndex, isNeonStyle, stoneBaseColor);
         
@@ -371,10 +371,10 @@ public class BoardPanel extends JPanel {
                    borderColor, "A" + (j + 1), isCurrentPlayer, isHovered, false, isNeonStyle, stoneBaseColor);
         }
         
-        // Top row: Player B (indices 7-12)
+        // Top row: Player B (indices pitsPerSide + 1 - pitsPerSide * 2)
         for (int j = 0; j < pitsPerSide; j++) {
-            int pitIndex = 7 + j;
-            int x = pitXPositions[j];
+            int pitIndex = pitsPerSide + 1 + j;
+            int x = pitXPositions[pitsPerSide - j - 1];
             int y = topRowY;
             boolean isCurrentPlayer = (currentPlayer == 2);
             boolean isHovered = (pitIndex == hoveredPitIndex);
