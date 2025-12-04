@@ -15,6 +15,7 @@ public class GameState {
     this.currentTurn = currentTurn;
     this.currentPlayer = currentPlayer;
   }
+  
 
   public int getCurrentTurn() {
     return currentTurn;
