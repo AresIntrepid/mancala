@@ -37,6 +37,7 @@ public class MancalaController implements PitClickListener {
     private MancalaModel model;
     
     private int undosThisTurn = 0;
+    private int lastUndoPlayer = -1;
     private boolean lastActionWasUndo = false;
     private static final int MAX_UNDOS_PER_TURN = 3;
     
@@ -139,19 +140,19 @@ public class MancalaController implements PitClickListener {
         // Track player before move to detect turn changes
         int playerBefore = model.getCurrentPlayer();
         
+        // Reset lastActionWasUndo flag
+        lastActionWasUndo = false;
+
         // All validations passed, apply the move
         model.applyMove(pitIndex);
         
-        // Reset lastActionWasUndo flag after a successful move
-        lastActionWasUndo = false;
-        
         // Check if turn changed after the move
         int playerAfter = model.getCurrentPlayer();
-        if (playerBefore != playerAfter) {
+        if (lastUndoPlayer == playerAfter) {
             // Turn changed - reset undo counter for the new player's turn
             undosThisTurn = 0;
         }
-     // Note: updateView() will be called automatically via ChangeListener
+        updateView();
     }
     
     /**
@@ -174,6 +175,7 @@ public class MancalaController implements PitClickListener {
                     model.undo();
                     undosThisTurn++;
                     lastActionWasUndo = true;
+                    lastUndoPlayer = model.getCurrentPlayer();
                     updateView(); // Make sure view refreshes
                 }
             }
