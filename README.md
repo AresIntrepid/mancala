@@ -104,6 +104,15 @@ Mancala is a two-player turn-based strategy game which features a board with two
 
 **Winner**: Player with the most stones in their Mancala wins!
 
+### System Use Cases
+
+The diagram below shows all possible interactions with the game system:
+
+<div align="center">
+  <img src="docs/final_proj_use_case.png" alt="Mancala Game Use Case Diagram" width="800">
+  <p><em>Use Case Diagram: Player interactions and system features</em></p>
+</div>
+
 ### Undo Feature
 
 - Press the **Undo** button to revert your last move
