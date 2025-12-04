@@ -109,9 +109,9 @@ Mancala is a two-player turn-based strategy game which features a board with two
 The diagram below shows all possible interactions with the game system:
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/aedf703a-4c7e-4e40-8a17-c6f370136d0e" alt="Sequence Diagram" width="900"/>
+  <img src="https://github.com/user-attachments/assets/15cccc53-2a5b-4a0a-b679-c18803de89a0" alt="Use Case Diagram" width="800"/>
   <br/>
-  <em>Sequence Diagram: Move execution flow from user click to board update</em>
+  <em>Use Case Diagram: Player interactions and system features</em>
 </p>
 
 ### Undo Feature
@@ -147,9 +147,9 @@ ConcreteStyle2      → Implementation for style variant 2
 ### Class Structure
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/15cccc53-2a5b-4a0a-b679-c18803de89a0" alt="Use Case Diagram" width="800"/>
+  <img src="https://github.com/user-attachments/assets/dd0a3bdc-a0f3-4625-a422-8faa7edce4fb" alt="Class Diagram" width="900"/>
   <br/>
-  <em>Use Case Diagram: Player interactions and system features</em>
+  <em>Class Diagram: MVC architecture with Strategy pattern implementation</em>
 </p>
 
 ### Interaction Flow
@@ -157,9 +157,9 @@ ConcreteStyle2      → Implementation for style variant 2
 The sequence diagram below illustrates how components interact when a player makes a move:
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/dd0a3bdc-a0f3-4625-a422-8faa7edce4fb" alt="Class Diagram" width="900"/>
+  <img src="https://github.com/user-attachments/assets/aedf703a-4c7e-4e40-8a17-c6f370136d0e" alt="Sequence Diagram" width="900"/>
   <br/>
-  <em>Class Diagram: MVC architecture with Strategy pattern implementation</em>
+  <em>Sequence Diagram: Move execution flow from user click to board update</em>
 </p>
 
 ### Project Structure
