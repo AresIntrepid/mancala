@@ -109,9 +109,9 @@ Mancala is a two-player turn-based strategy game which features a board with two
 The diagram below shows all possible interactions with the game system:
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/15cccc53-2a5b-4a0a-b679-c18803de89a0" alt="Use Case Diagram" width="800"/>
+  <img src="https://github.com/user-attachments/assets/dd0a3bdc-a0f3-4625-a422-8faa7edce4fb" alt="Class Diagram" width="900"/>
   <br/>
-  <em>Use Case Diagram: Player interactions and system features</em>
+  <em>Class Diagram: MVC architecture with Strategy pattern implementation</em>
 </p>
 
 ### Undo Feature
@@ -147,9 +147,9 @@ ConcreteStyle2      → Implementation for style variant 2
 ### Class Structure
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/dd0a3bdc-a0f3-4625-a422-8faa7edce4fb" alt="Class Diagram" width="900"/>
+  <img src="https://github.com/user-attachments/assets/15cccc53-2a5b-4a0a-b679-c18803de89a0" alt="Use Case Diagram" width="800"/>
   <br/>
-  <em>Class Diagram: MVC architecture with Strategy pattern implementation</em>
+  <em>Use Case Diagram: Player interactions and system features</em>
 </p>
 
 ### Interaction Flow
