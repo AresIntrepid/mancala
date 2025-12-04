@@ -221,10 +221,10 @@ public class MancalaModel {
   }
 
   private void addToHistory() {
-    int[] currentBoard = getBoardState();
-    GameState state = new GameState(currentBoard, currentMove, currentPlayer);
-    history.push(state);
-  }
+	    int[] currentBoard = getBoardState();
+	    GameState state = new GameState(currentBoard, currentMove, currentPlayer);
+	    history.push(state);
+	}
 
   private void endGame() {
     isGameOver = true;

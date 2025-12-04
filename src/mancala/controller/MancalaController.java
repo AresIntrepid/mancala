@@ -36,7 +36,9 @@ public class MancalaController implements PitClickListener {
     private BoardStyle currentStyle;
     private MancalaModel model;
     
-    private int undosThisTurn = 0;
+    private int undosThisTurnPlayer1 = 0;  // Track Player A's undos
+    private int undosThisTurnPlayer2 = 0;  // Track Player B's undos
+    private int currentPlayerSession = -1; // Track which player is actually playing (has control)
     private boolean lastActionWasUndo = false;
     private static final int MAX_UNDOS_PER_TURN = 3;
     
@@ -74,6 +76,9 @@ public class MancalaController implements PitClickListener {
             }
         } else {
             int currentPlayer = model.getCurrentPlayer();
+            
+            // Get the undo count for the current player shown
+            int undosThisTurn = (currentPlayer == 1) ? undosThisTurnPlayer1 : undosThisTurnPlayer2;
             int undosLeft = MAX_UNDOS_PER_TURN - undosThisTurn;
             String undoInfo = " (Undos left: " + undosLeft + ")";
             if (currentPlayer == 1) {
@@ -136,22 +141,24 @@ public class MancalaController implements PitClickListener {
         	controlPanel.setStatusText("That pit is empty! Choose a pit with stones.");
             return; // Ignore clicks on empty pits
         }
-        // Track player before move to detect turn changes
-        int playerBefore = model.getCurrentPlayer();
         
-        // All validations passed, apply the move
-        model.applyMove(pitIndex);
+        // Check if this is a different player taking control
+        // (not the same player making another move after an undo)
+        if (currentPlayerSession != currentPlayer) {
+            // Control is switching to a different player - reset their undo count
+            if (currentPlayer == 1) {
+                undosThisTurnPlayer1 = 0;
+            } else {
+                undosThisTurnPlayer2 = 0;
+            }
+            currentPlayerSession = currentPlayer;
+        }
         
-        // Reset lastActionWasUndo flag after a successful move
+        // Reset lastActionWasUndo flag - player is now making a move
         lastActionWasUndo = false;
         
-        // Check if turn changed after the move
-        int playerAfter = model.getCurrentPlayer();
-        if (playerBefore != playerAfter) {
-            // Turn changed - reset undo counter for the new player's turn
-            undosThisTurn = 0;
-        }
-     // Note: updateView() will be called automatically via ChangeListener
+        // Apply the move (updateView will handle display update)
+        model.applyMove(pitIndex);
     }
     
     /**
@@ -171,10 +178,16 @@ public class MancalaController implements PitClickListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (model != null && canUndo()) {
-                    model.undo();
-                    undosThisTurn++;
+                    // Increment the undo counter for the player who has control (session player)
+                    if (currentPlayerSession == 1) {
+                        undosThisTurnPlayer1++;
+                    } else if (currentPlayerSession == 2) {
+                        undosThisTurnPlayer2++;
+                    }
                     lastActionWasUndo = true;
-                    updateView(); // Make sure view refreshes
+                    
+                    // Now undo to restore the old state
+                    model.undo();
                 }
             }
         });
@@ -187,7 +200,9 @@ public class MancalaController implements PitClickListener {
                 frame.showStyleSelect();
                 
                 // Reset controller state
-                undosThisTurn = 0;
+                undosThisTurnPlayer1 = 0;
+                undosThisTurnPlayer2 = 0;
+                currentPlayerSession = -1;
                 lastActionWasUndo = false;
                 model = null;
                 
@@ -303,7 +318,9 @@ public class MancalaController implements PitClickListener {
         if (lastActionWasUndo) {
             return false; // No consecutive undos
         }
-        if (undosThisTurn >= MAX_UNDOS_PER_TURN) {
+        // Check the undo count for the player who has control
+        int undosForSessionPlayer = (currentPlayerSession == 1) ? undosThisTurnPlayer1 : undosThisTurnPlayer2;
+        if (undosForSessionPlayer >= MAX_UNDOS_PER_TURN) {
             return false; // Max 3 undos per turn
         }
         return model.hasHistory(); // Check if there's anything to undo
