@@ -144,6 +144,22 @@ BoardStyle Interface → Defines rendering contract
 ConcreteStyle1      → Implementation for style variant 1
 ConcreteStyle2      → Implementation for style variant 2
 ```
+### Class Structure
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/dd0a3bdc-a0f3-4625-a422-8faa7edce4fb" alt="Class Diagram" width="900"/>
+  <br/>
+  <em>Class Diagram: MVC architecture with Strategy pattern implementation</em>
+</p>
+
+### Interaction Flow
+
+The sequence diagram below illustrates how components interact when a player makes a move:
+
+<div align="center">
+  <img src="docs/final_proj_sequence.png" alt="Mancala Game Sequence Diagram" width="700">
+  <p><em>Sequence Diagram: Move execution flow from user click to board update</em></p>
+</div>
 
 ### Project Structure
 ```
