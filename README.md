@@ -156,10 +156,11 @@ ConcreteStyle2      → Implementation for style variant 2
 
 The sequence diagram below illustrates how components interact when a player makes a move:
 
-<div align="center">
-  <img src="docs/final_proj_sequence.png" alt="Mancala Game Sequence Diagram" width="700">
-  <p><em>Sequence Diagram: Move execution flow from user click to board update</em></p>
-</div>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/aedf703a-4c7e-4e40-8a17-c6f370136d0e" alt="Sequence Diagram" width="900"/>
+  <br/>
+  <em>Sequence Diagram: Move execution flow from user click to board update</em>
+</p>
 
 ### Project Structure
 ```
