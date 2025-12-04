@@ -108,10 +108,11 @@ Mancala is a two-player turn-based strategy game which features a board with two
 
 The diagram below shows all possible interactions with the game system:
 
-<div align="center">
-  <img src="docs/final_proj_use_case.png" alt="Mancala Game Use Case Diagram" width="800">
-  <p><em>Use Case Diagram: Player interactions and system features</em></p>
-</div>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/15cccc53-2a5b-4a0a-b679-c18803de89a0" alt="Use Case Diagram" width="800"/>
+  <br/>
+  <em>Use Case Diagram: Player interactions and system features</em>
+</p>
 
 ### Undo Feature
 
