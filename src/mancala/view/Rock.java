@@ -5,6 +5,13 @@ import java.awt.Graphics2D;
 import java.awt.BasicStroke; 
 import javax.swing.JComponent;
 
+/**
+ * Represents a single stone/rock in a pit.
+ * Each rock has random color and position variations for visual variety.
+ * 
+ * @author CS151 Group Project
+ * @version 1.0
+ */
 public class Rock extends JComponent {
     private final double r;
     private final double g;
@@ -14,10 +21,10 @@ public class Rock extends JComponent {
     private final double dy;
 
     /**
-     * Constructs the rock with the specific variation for positioning and coloring
+     * Constructs a rock with specific position and color variations.
      * 
      * @param dx The relative positional offset in the x-axis
-     * @param dy The relative positional offset in the x-axis
+     * @param dy The relative positional offset in the y-axis
      * @param r  The color variation in the red channel
      * @param g  The color variation in the green channel
      * @param b  The color variation in the blue channel
@@ -32,14 +39,14 @@ public class Rock extends JComponent {
     }
 
     /**
-     * Draws the stone with variation of a color theme, and some variation with its
-     * position.
+     * Draws the stone with color and position variations.
+     * Color is mixed with the base color, and position is offset from center.
      * 
      * @param g2d   Graphics context for drawing
-     * @param x     X position of the pit (top-left corner)
-     * @param y     Y position of the pit (top-left corner)
-     * @param size  Diameter of the circular pit
-     * @param color Base color for the outline and stone color mixing
+     * @param x     X position of the pit center (top-left corner)
+     * @param y     Y position of the pit center (top-left corner)
+     * @param size  Diameter of the stone
+     * @param color Base color for color mixing
      */
     public void draw(Graphics2D g2d, int x, int y, int size, Color color) {
         int MIXING_STRENGTH = 10;
@@ -70,18 +77,18 @@ public class Rock extends JComponent {
     }
 
     /**
-     * Getter
+     * Gets the relative x-axis position offset.
      * 
-     * @return Returns the relative x-offset
+     * @return The relative x-offset
      */
     public double getDx() {
         return dx;
     }
 
     /**
-     * Getter
+     * Gets the relative y-axis position offset.
      * 
-     * @return Returns the relative y-offset
+     * @return The relative y-offset
      */
     public double getDy() {
         return dy;
