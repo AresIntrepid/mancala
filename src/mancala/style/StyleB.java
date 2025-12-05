@@ -1,5 +1,14 @@
 // Concrete styles implementing BoardStyle for two distinct looks. 
 // Decide the two visual themes (names/palette/shapes) and implement once the interface is locked.
+
+/**
+ * Concrete strategy class for the BoardStyle
+ * 
+ * This provides the neon style for the game
+ * 
+ * @author CS151 Group Project
+ * @version 1.0
+ */
 package mancala.style;
 
 import java.awt.Color;
