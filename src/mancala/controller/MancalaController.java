@@ -17,19 +17,19 @@
  */
 package mancala.controller;
 
-import mancala.view.MancalaFrame;
-import mancala.view.StyleSelectPanel;
-import mancala.view.BoardPanel;
-import mancala.view.ControlPanel;
-import mancala.view.PitClickListener;
-import mancala.model.MancalaModel;
-import mancala.style.BoardStyle;
-import mancala.style.StyleA;
-import mancala.style.StyleB;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import mancala.model.MancalaModel;
+import mancala.style.BoardStyle;
+import mancala.style.StyleA;
+import mancala.style.StyleB;
+import mancala.view.BoardPanel;
+import mancala.view.ControlPanel;
+import mancala.view.MancalaFrame;
+import mancala.view.PitClickListener;
+import mancala.view.StyleSelectPanel;
 
 public class MancalaController implements PitClickListener {
     private MancalaFrame frame;
@@ -37,7 +37,7 @@ public class MancalaController implements PitClickListener {
     private MancalaModel model;
     
     private int undosThisTurn = 0;
-    private int lastUndoPlayer = -1;
+    private int currentPlayerUndo = 0;
     private boolean lastActionWasUndo = false;
     private static final int MAX_UNDOS_PER_TURN = 3;
     
@@ -76,7 +76,13 @@ public class MancalaController implements PitClickListener {
         } else {
             int currentPlayer = model.getCurrentPlayer();
             int undosLeft = MAX_UNDOS_PER_TURN - undosThisTurn;
-            String undoInfo = " (Undos left: " + undosLeft + ")";
+            String lastPlayer = "";
+            if (currentPlayerUndo == 1) {
+                lastPlayer = " [Player A]";
+            } else {
+                lastPlayer = " [Player B]";
+            }
+            String undoInfo = String.format(" (%s Undos left: %d)", lastPlayer, undosLeft);
             if (currentPlayer == 1) {
                 controlPanel.setStatusText("Player A's turn" + undoInfo);
             } else if (currentPlayer == 2) {
@@ -148,9 +154,10 @@ public class MancalaController implements PitClickListener {
         
         // Check if turn changed after the move
         int playerAfter = model.getCurrentPlayer();
-        if (lastUndoPlayer == playerAfter) {
+        if (currentPlayerUndo == playerAfter) {
             // Turn changed - reset undo counter for the new player's turn
             undosThisTurn = 0;
+            currentPlayerUndo = playerBefore;
         }
         updateView();
     }
@@ -175,7 +182,7 @@ public class MancalaController implements PitClickListener {
                     model.undo();
                     undosThisTurn++;
                     lastActionWasUndo = true;
-                    lastUndoPlayer = model.getCurrentPlayer();
+                    currentPlayerUndo = model.getCurrentPlayer();
                     updateView(); // Make sure view refreshes
                 }
             }
@@ -218,6 +225,7 @@ public class MancalaController implements PitClickListener {
                 // Initialize model with user-selected stones per pit
                 model = new MancalaModel(6, stones); // 6 pits per side
                 model.startGame(1); // Start with Player 1 (Player A)
+                currentPlayerUndo = 1;
                 
                 // Add ChangeListener to model to update view when state changes
                 model.addListener(new ChangeListener() {
