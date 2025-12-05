@@ -1,9 +1,15 @@
-// Top-level window that swaps between the style select screen and the main game screen. Decide layout manager (e.g., CardLayout) and what getters the controller needs.
 package mancala.view;
 
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * Main application window that manages the game screens.
+ * Uses CardLayout to switch between style selection and game screens.
+ * 
+ * @author CS151 Group Project
+ * @version 1.0
+ */
 public class MancalaFrame extends JFrame {
     private static final String STYLE_SELECT_CARD = "STYLE_SELECT";
     private static final String GAME_CARD = "GAME";
@@ -14,6 +20,10 @@ public class MancalaFrame extends JFrame {
     private BoardPanel boardPanel;
     private ControlPanel controlPanel;
     
+    /**
+     * Constructs a new MancalaFrame and initializes all screens.
+     * Starts with the style selection screen visible.
+     */
     public MancalaFrame() {
         setTitle("Mancala");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,21 +51,43 @@ public class MancalaFrame extends JFrame {
         showStyleSelect();
     }
     
+    /**
+     * Shows the style selection screen.
+     */
     public void showStyleSelect() {
         cardLayout.show(getContentPane(), STYLE_SELECT_CARD);
     }
     
+    /**
+     * Shows the main game screen with board and controls.
+     */
     public void showGame() {
         cardLayout.show(getContentPane(), GAME_CARD);
     }
     
+    /**
+     * Gets the style selection panel.
+     * 
+     * @return The StyleSelectPanel instance
+     */
     public StyleSelectPanel getStyleSelectPanel() {
         return styleSelectPanel;
     }
     
+    /**
+     * Gets the board panel for game rendering.
+     * 
+     * @return The BoardPanel instance
+     */
     public BoardPanel getBoardPanel() {
         return boardPanel;
     }
+    
+    /**
+     * Gets the control panel for game controls.
+     * 
+     * @return The ControlPanel instance
+     */
     public ControlPanel getControlPanel() {
         return controlPanel;
     }
